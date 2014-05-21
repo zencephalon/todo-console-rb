@@ -83,9 +83,8 @@ class List
         line.sub!(/^\d+\./, "")
         list.add(Task.parse(line))
       end
-    else
-      return list
     end
+    return list
   end
 
   def complete(task)
@@ -103,7 +102,7 @@ class List
   def to_s
     str = ""
     @tasks.each_with_index do |task, index|
-      str << "#{index}." + task.to_s + "\n"
+      str << "#{index}." + task.to_s
     end
     str
   end
