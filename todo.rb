@@ -28,16 +28,29 @@ end
 
 # Models
 class Task
-  def initialize
-
+  def initialize(description, todo = true)
+    @description = description
+    @todo = todo
   end
 
   def to_s
+    str = ""
+    if @todo
+      str << "[ ] "
+    else
+      str << "[X] "
+    end
+    str << description
   end
 
-  def self.parse
+  def self.parse(str)
+    if str[0..2] == "[ ]"
+      todo = true
+    else
+      todo = false
+    end
+    return self.new(str[4..-1], todo)
   end
-
 end
 
 class List
@@ -51,8 +64,8 @@ class List
 
   def save
     File.open("todos.txt") do |f|
-      @tasks.each do |task|
-        f.puts task
+      @tasks.each_with_index do |task, index|
+        f.puts "#{index}." + task
       end
     end
   end
