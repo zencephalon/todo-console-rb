@@ -80,9 +80,8 @@ class List
     list = self.new
     if File.file?("todos.txt")
       File.readlines("todos.txt").each do |line|
-        line.sub!(/^\d+\.\[/, "")
-        todo = line.start_with?(" ")
-        
+        line.sub!(/^\d+\./, "")
+        list.add(Task.parse(line))
       end
     else
       return list
@@ -93,8 +92,12 @@ class List
     @tasks[task].complete
   end
 
+  def add(task)
+    @tasks << task
+  end
+
   def add_task(description, todo = true)
-    @tasks << Task.new(description, todo)
+    add(Task.new(description, todo))
   end
 
   def to_s
