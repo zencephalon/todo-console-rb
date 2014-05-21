@@ -28,11 +28,34 @@ end
 
 # Models
 class Task
+  def initialize
+
+  end
+
+  def to_s
+  end
+
+  def self.parse
+  end
 
 end
 
 class List
+  def initialize
+    @tasks = []
+  end
 
+  def load
+    
+  end
+
+  def save
+    File.open("todos.txt") do |f|
+      @tasks.each do |task|
+        f.puts task
+      end
+    end
+  end
 end
 
 app = App.new
