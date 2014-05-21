@@ -77,15 +77,24 @@ class List
   end
 
   def self.load
-    return self.new
+    list = self.new
+    if File.file?("todos.txt")
+      File.readlines("todos.txt").each do |line|
+        line.sub!(/^\d+\.\[/, "")
+        todo = line.start_with?(" ")
+        
+      end
+    else
+      return list
+    end
   end
 
   def complete(task)
     @tasks[task].complete
   end
 
-  def add_task(description)
-    @tasks << Task.new(description)
+  def add_task(description, todo = true)
+    @tasks << Task.new(description, todo)
   end
 
   def to_s
