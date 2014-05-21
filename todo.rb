@@ -17,7 +17,11 @@ class App
   end
 
   def run
-    @parser.parse(ARGV)
+    parsed = @parser.parse(ARGV)
+    
+    interactive if parsed[:cmd] == :interactive
+    add(parsed[:input]) if parsed[:cmd] == :add
+    list(parsed[:input]) if parsed[:cmd] == :list
   end
 
 end
