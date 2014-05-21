@@ -14,6 +14,7 @@ end
 class App
   def initialize
     @parser = Parser.new
+    @list = List.load
   end
 
   def run
@@ -22,8 +23,21 @@ class App
     interactive if parsed[:cmd] == :interactive
     add(parsed[:input]) if parsed[:cmd] == :add
     list(parsed[:input]) if parsed[:cmd] == :list
+
+    quit
   end
 
+  def quit
+    @list.save
+  end
+
+  def add(input)
+    @list.add_task(input.join(" "))
+  end
+
+  def list
+    puts @list
+  end
 end
 
 # Models
@@ -40,7 +54,7 @@ class Task
     else
       str << "[X] "
     end
-    str << description
+    str << @description
   end
 
   def self.parse(str)
@@ -62,8 +76,8 @@ class List
     @tasks = []
   end
 
-  def load
-    
+  def self.load
+    return self.new
   end
 
   def complete(task)
@@ -77,13 +91,13 @@ class List
   def to_s
     str = ""
     @tasks.each_with_index do |task, index|
-      str << "#{index}." + task + "\n"
+      str << "#{index}." + task.to_s + "\n"
     end
     str
   end
 
   def save
-    File.open("todos.txt") do |f|
+    File.open("todos.txt", "w+") do |f|
       f.puts to_s
     end
   end
