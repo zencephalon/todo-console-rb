@@ -51,6 +51,10 @@ class Task
     end
     return self.new(str[4..-1], todo)
   end
+
+  def complete
+    @todo = false
+  end
 end
 
 class List
@@ -62,11 +66,25 @@ class List
     
   end
 
+  def complete(task)
+    @tasks[task].complete
+  end
+
+  def add_task(description)
+    @tasks << Task.new(description)
+  end
+
+  def to_s
+    str = ""
+    @tasks.each_with_index do |task, index|
+      str << "#{index}." + task + "\n"
+    end
+    str
+  end
+
   def save
     File.open("todos.txt") do |f|
-      @tasks.each_with_index do |task, index|
-        f.puts "#{index}." + task
-      end
+      f.puts to_s
     end
   end
 end
