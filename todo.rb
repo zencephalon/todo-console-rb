@@ -1,14 +1,19 @@
 class Parser
   def parse(input)
-    cmd = nil
-    return cmd
+    return :interactive if input.empty?
+
+    if input[0] == "add"
+      return {cmd: :add, input: input[1..-1]}
+    elsif input[0] == "list"
+      return {cmd: :list, input: input[1..-1]}
+    end
   end
 
 end
 
 class App
   def initialize
-    @parser = Parser
+    @parser = Parser.new
   end
 
   def run
@@ -25,3 +30,6 @@ end
 class List
 
 end
+
+app = App.new
+app.run
